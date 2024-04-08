@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\User;
+use App\Helpers\DB\UserRepository;
 
 class AuthenticationController extends Controller
 {
-    public function register()
+    public function register(RegisterRequest $request)
     {
         # code...
     }   
@@ -15,6 +17,7 @@ class AuthenticationController extends Controller
 
     public function login()
     {
-        # code...
-    }   
+    # code...
+    }
+
 }
