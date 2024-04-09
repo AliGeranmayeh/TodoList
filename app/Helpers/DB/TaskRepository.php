@@ -17,4 +17,9 @@ class TaskRepository
     {
         return Task::create($data);
     }
+
+    public static function updateTask(Task $task, array $data)
+    {
+        return $task->update($data);
+    }
 }

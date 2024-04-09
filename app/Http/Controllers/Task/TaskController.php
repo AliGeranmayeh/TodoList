@@ -8,6 +8,7 @@ use App\Helpers\DB\TaskRepository;
 use App\Helpers\Responses\TaskResponse;
 use App\Http\Requests\Tasks\CreateTaskRequest;
 use App\Models\Task;
+use App\Http\Requests\Tasks\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -57,9 +58,16 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-    //
+
+        try {
+            $updatedTask = TaskRepository::updateTask($task, $request->validated());
+        } catch (\Throwable $th) {
+            TaskResponse::failed();
+        }
+
+        return TaskResponse::updateSuccess($task);
     }
 
     /**
