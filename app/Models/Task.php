@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Scopes\UserTaskScope;
 
 class Task extends Model
 {
@@ -16,6 +17,13 @@ class Task extends Model
         'description',
         'user_id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new UserTaskScope());
+    }
 
 
     public function user(): BelongsTo
