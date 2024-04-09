@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Helpers\DB\UserRepository;
+use App\Helpers\Responses\RegisterResponse;
 
 class AuthenticationController extends Controller
 {
@@ -13,10 +14,9 @@ class AuthenticationController extends Controller
     {
         $registerIsSuccess = UserRepository::createUser($request->validated());
 
-        if ($registerIsSuccess) {
-            return response()->json(['message' => 'User created successfully'], 200);
-        }
-        return response()->json(['message' => 'Failed to create user'], 500);
+        return ($registerIsSuccess) ? 
+            RegisterResponse::success() :
+            RegisterResponse::failed();
 
     }
 
