@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\DB\TaskRepository;
 use App\Helpers\Responses\TaskResponse;
 use App\Http\Requests\Tasks\CreateTaskRequest;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
@@ -48,9 +49,9 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-    //
+        return TaskResponse::showSuccess($task);
     }
 
     /**

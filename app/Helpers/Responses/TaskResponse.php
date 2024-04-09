@@ -24,4 +24,10 @@ class TaskResponse {
         return response()->json(['task' => new TaskResource($task)], Response::HTTP_OK);
 
     }
+
+    public static function showSuccess($task)
+    {
+        return response()->json(['task' => new TaskResource($task)], Response::HTTP_OK);
+
+    }
 }
