@@ -7,7 +7,7 @@ use App\Models\Task;
 
 class TaskRepository
 {
-    public static function getUserTasks(int $user_id)
+    public static function getTasks()
     {
         return Task::query()->orderByDesc('created_at')->get();
     }

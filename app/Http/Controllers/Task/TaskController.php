@@ -18,7 +18,7 @@ class TaskController extends Controller
     public function index()
     {
         try {
-            $tasks = TaskRepository::getUserTasks(auth()->user()->id);
+            $tasks = TaskRepository::getTasks();
         }
         catch (\Throwable $th) {
             return TaskResponse::failed();
