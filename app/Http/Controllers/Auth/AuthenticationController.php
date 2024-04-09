@@ -11,14 +11,15 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Helpers\Responses\LoginResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\LoginResponseType;
+use App\Helpers\Responses\LogoutResponse;
 
 class AuthenticationController extends Controller
 {
     public function register(RegisterRequest $request)
     {
-        $registerIsSuccess = UserRepository::createUser($request->validated());
+        $isRegister = UserRepository::createUser($request->validated());
 
-        return ($registerIsSuccess) ? 
+        return ($isRegister) ? 
             RegisterResponse::success() :
             RegisterResponse::failed();
     }
@@ -38,7 +39,12 @@ class AuthenticationController extends Controller
 
     public function logout()
     {
-        # code...
+        $isLoggedOut = $this->performeLogout();
+
+        return ($isLoggedOut) ? 
+            LogoutResponse::success() :
+            LogoutResponse::failed();
+
     }
 
     private function checkLoginCredentials(array $loginData)
@@ -57,7 +63,17 @@ class AuthenticationController extends Controller
         return Auth::attempt($loginData) ? 
             LoginResponseType::SUCCESS :
             LoginResponseType::FAILED;
+    }
 
+    private function performeLogout()
+    {
+        try {
+            auth()->user()->tokens()->delete();
+        }
+        catch (\Throwable $th) {
+            return false;
+        }
+        return true;
     }
 
 }
