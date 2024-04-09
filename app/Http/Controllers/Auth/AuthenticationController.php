@@ -11,8 +11,14 @@ class AuthenticationController extends Controller
 {
     public function register(RegisterRequest $request)
     {
-        # code...
-    }   
+        $registerIsSuccess = UserRepository::createUser($request->validated());
+
+        if ($registerIsSuccess) {
+            return response()->json(['message' => 'User created successfully'], 200);
+        }
+        return response()->json(['message' => 'Failed to create user'], 500);
+
+    }
 
 
     public function login()
