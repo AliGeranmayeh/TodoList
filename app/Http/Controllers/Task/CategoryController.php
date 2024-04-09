@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Task;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Helpers\DB\CategoryRepository;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        try {
+            $categories = CategoryRepository::getCategories();
+        }
+        catch (\Throwable $th) {
+            return CategoryRepository::failed();
+        }
 
+        return CategoryRepository::indexSuccess($categories);
     }
 
     /**
