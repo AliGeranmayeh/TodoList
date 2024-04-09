@@ -10,6 +10,7 @@ use App\Helpers\Responses\RegisterResponse;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Helpers\Responses\LoginResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\LoginResponseType;
 
 class AuthenticationController extends Controller
 {
@@ -25,7 +26,33 @@ class AuthenticationController extends Controller
 
     public function login(LoginRequest $request)
     {
-    # code...
+        $loginIsSuccess = $this->checkLoginCredentials($request->validated());
+
+        return match ($loginIsSuccess) {
+                LoginResponseType::SUCCESS => LoginResponse::success(Auth::user()),
+                LoginResponseType::VERIFICATION_ERROR => LoginResponse::emailVerificationError(),
+                default => LoginResponse::failed(),
+            };
+
+    }
+
+    private function checkLoginCredentials(array $loginData)
+    {
+        try {
+            $user = UserRepository::findUser($loginData);
+        }
+        catch (\Throwable $th) {
+            return LoginResponseType::FAILED;
+        }
+
+        if (!UserRepository::emailIsVerified($user)) {
+            return LoginResponseType::VERIFICATION_ERROR;
+        }
+
+        return Auth::attempt($loginData) ? 
+            LoginResponseType::SUCCESS :
+            LoginResponseType::FAILED;
+
     }
 
 }
