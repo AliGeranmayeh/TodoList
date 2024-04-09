@@ -10,4 +10,10 @@ class CategoryRepository
     {
         return Category::query()->orderByDesc('created_at')->get();
     }
+
+
+    public static function createCategory(array $data)
+    {
+        return Category::create($data);
+    }
 }

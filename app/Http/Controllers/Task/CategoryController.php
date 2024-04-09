@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Helpers\DB\CategoryRepository;
 use App\Helpers\Responses\CategoryResponse;
+use App\Http\Requests\Tasks\CreateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -28,9 +29,18 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
+        $inputData = $this->prepareStoreData($request);
 
+        try {
+            $category = CategoryRepository::createCategory($inputData);
+        }
+        catch (\Throwable $th) {
+            return CategoryResponse::failed();
+        }
+
+        return CategoryResponse::createSuccess($category);
     }
 
     /**
@@ -39,5 +49,14 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
+    }
+
+
+    private function prepareStoreData($dataObj)
+    {
+        $data = $dataObj->validated();
+        $data['user_id'] = auth()->user()->id; //add user_id to data
+
+        return $data;
     }
 }

@@ -11,8 +11,13 @@ class CategoryResponse{
         return response()->json(['message' => 'Failed to fetch categories'], Response::HTTP_SERVICE_UNAVAILABLE);
     }
 
-    public static function indexSuccess($tasks)
+    public static function indexSuccess($categories)
     {
-        return response()->json(['tasks' => CategoryResource::collection($tasks)], Response::HTTP_OK);
+        return response()->json(['categories' => CategoryResource::collection($categories)], Response::HTTP_OK);
+    }
+
+    public static function createSuccess($category)
+    {
+        return response()->json(['category' => new CategoryResource($category)], Response::HTTP_OK);
     }
 }
