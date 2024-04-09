@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Helpers\DB\TaskRepository;
+use App\Helpers\Responses\TaskResponse;
 
 class TaskController extends Controller
 {
@@ -12,7 +14,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $tasks = TaskRepository::getUserTasks(auth()->user()->id);
+        }
+        catch (\Throwable $th) {
+            return TaskResponse::failed();
+        }
+
+        return TaskResponse::indexSuccess($tasks);
     }
 
     /**
@@ -20,7 +29,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    //
     }
 
     /**
@@ -28,7 +37,7 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+    //
     }
 
     /**
@@ -36,7 +45,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+    //
     }
 
     /**
@@ -44,6 +53,6 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+    //
     }
 }
