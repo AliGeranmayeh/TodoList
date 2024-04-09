@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Scopes\UserCategoryScope;
 
 class Category extends Model
 {
@@ -15,6 +16,13 @@ class Category extends Model
         'name',
         'user_id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new UserCategoryScope());
+    }
 
 
     public function user(): BelongsTo
