@@ -92,6 +92,7 @@ class TaskController extends Controller
     private function deleteTask(Task $task)
     {
         try {
+            $task->categories()->detach();
             $task->delete();
         }
         catch (\Throwable $th) {
