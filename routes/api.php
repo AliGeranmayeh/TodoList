@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Task\TaskController;
+use App\Http\Controllers\Task\CategoryController;
+use App\Http\Controllers\Auth\AuthenticationController;
 
 
 
@@ -17,4 +18,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('tasks/{task}', [TaskController::class , 'update'])->name('tasks.update');
     Route::get('tasks/{task}', [TaskController::class , 'show'])->name('tasks.show');
     Route::delete('tasks/{task}', [TaskController::class , 'destroy'])->name('tasks.delete');
+
+
+    Route::get('categories', [CategoryController::class , 'index'])->name('categories.index');
+    Route::post('categories', [CategoryController::class , 'store'])->name('categories.store');
+    Route::delete('categories/{category}', [CategoryController::class , 'destroy'])->name('categories.delete');
 });
