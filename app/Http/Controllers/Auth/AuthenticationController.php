@@ -36,6 +36,12 @@ class AuthenticationController extends Controller
 
     }
 
+
+    public function logout()
+    {
+        # code...
+    }
+
     private function checkLoginCredentials(array $loginData)
     {
         try {
