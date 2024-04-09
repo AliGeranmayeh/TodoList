@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Helpers\DB\CategoryRepository;
+use App\Helpers\Responses\CategoryResponse;
 
 class CategoryController extends Controller
 {
@@ -18,10 +19,10 @@ class CategoryController extends Controller
             $categories = CategoryRepository::getCategories();
         }
         catch (\Throwable $th) {
-            return CategoryRepository::failed();
+            return CategoryResponse::failed();
         }
 
-        return CategoryRepository::indexSuccess($categories);
+        return CategoryResponse::indexSuccess($categories);
     }
 
     /**
