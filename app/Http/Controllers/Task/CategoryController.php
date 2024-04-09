@@ -48,7 +48,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $isDeleted = $this->deleteCategory($category);
 
+        return ($isDeleted) ? 
+            CategoryResponse::destroySuccess() :
+            CategoryResponse::failed();
     }
 
 
@@ -58,5 +62,17 @@ class CategoryController extends Controller
         $data['user_id'] = auth()->user()->id; //add user_id to data
 
         return $data;
+    }
+
+    private function deleteCategory(Category $category)
+    {
+        try {
+            $category->delete();
+        }
+        catch (\Throwable $th) {
+            return false;
+        }
+
+        return true;
     }
 }
