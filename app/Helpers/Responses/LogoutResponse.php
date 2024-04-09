@@ -14,6 +14,6 @@ class LogoutResponse
 
     public static function failed()
     {
-        return response()->json(['message' => 'Failed to create user'], Response::HTTP_BAD_REQUEST);
+        return response()->json(['message' => 'Failed to logout user'], Response::HTTP_BAD_REQUEST);
     }
 }
