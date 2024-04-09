@@ -26,14 +26,13 @@ class AuthenticationController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $loginIsSuccess = $this->checkLoginCredentials($request->validated());
+        $loginResponseStatus = $this->checkLoginCredentials($request->validated());
 
-        return match ($loginIsSuccess) {
+        return match ($loginResponseStatus) {
                 LoginResponseType::SUCCESS => LoginResponse::success(Auth::user()),
                 LoginResponseType::VERIFICATION_ERROR => LoginResponse::emailVerificationError(),
                 default => LoginResponse::failed(),
             };
-
     }
 
 
