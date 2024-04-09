@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\DB\TaskRepository;
 use App\Helpers\Responses\TaskResponse;
+use App\Http\Requests\Tasks\CreateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -27,9 +28,21 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
-    //
+        $inputData = $this->prepareStoreData($request);
+
+        try {
+            $task = TaskRepository::createTask($inputData);
+        }
+        catch (\Throwable $th) {
+            return TaskResponse::failed();
+        }
+
+        return TaskResponse::createSuccess($task);
+
+
+
     }
 
     /**
@@ -54,5 +67,14 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
     //
+    }
+
+
+    private function prepareStoreData($dataObj)
+    {
+        $data = $dataObj->validated();
+        $data['user_id'] = auth()->user()->id; //add user_id to data
+
+        return $data;
     }
 }

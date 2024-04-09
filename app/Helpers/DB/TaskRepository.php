@@ -9,6 +9,12 @@ class TaskRepository
 {
     public static function getUserTasks(int $user_id)
     {
-        return Task::query()->where('user_id',$user_id)->orderByDesc('created_at')->get();
+        return Task::query()->where('user_id', $user_id)->orderByDesc('created_at')->get();
+    }
+
+
+    public static function createTask(array $data)
+    {
+        return Task::create($data);
     }
 }
