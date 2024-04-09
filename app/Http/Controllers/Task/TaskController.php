@@ -42,9 +42,6 @@ class TaskController extends Controller
         }
 
         return TaskResponse::createSuccess($task);
-
-
-
     }
 
     /**
@@ -63,7 +60,8 @@ class TaskController extends Controller
 
         try {
             $updatedTask = TaskRepository::updateTask($task, $request->validated());
-        } catch (\Throwable $th) {
+        }
+        catch (\Throwable $th) {
             TaskResponse::failed();
         }
 

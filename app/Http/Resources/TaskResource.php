@@ -18,7 +18,10 @@ class TaskResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'categories' => $this->categories,
+            'categories' => $this->categories->map(
+                fn($category) => [
+                    'id' => $category->id,
+                    'name' => $category->name]),
         ];
     }
 }
