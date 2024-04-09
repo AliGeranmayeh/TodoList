@@ -30,4 +30,10 @@ class TaskResponse {
         return response()->json(['task' => new TaskResource($task)], Response::HTTP_OK);
 
     }
+
+    public static function destroySuccess()
+    {
+        return response()->json(['message' => 'Task has been deleted'], Response::HTTP_OK);
+
+    }
 }

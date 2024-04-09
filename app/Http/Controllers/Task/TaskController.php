@@ -65,9 +65,13 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-    //
+        $isDeleted = $this->deleteTask($task);
+
+        return ($isDeleted) ? 
+            TaskResponse::destroySuccess() :
+            TaskResponse::failed();
     }
 
 
@@ -77,5 +81,17 @@ class TaskController extends Controller
         $data['user_id'] = auth()->user()->id; //add user_id to data
 
         return $data;
+    }
+
+    private function deleteTask(Task $task)
+    {
+        try {
+            $task->delete();
+        }
+        catch (\Throwable $th) {
+            return false;
+        }
+
+        return true;
     }
 }
