@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Tasks;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -24,6 +25,12 @@ class UpdateTaskRequest extends FormRequest
         return [
             'title' => ['string'],
             'description' => ['string'],
+            'categories' => ['array'],
+            'categories.*' => ['integer ',
+                Rule::exists('categories', 'id')->where(
+                    fn($query) => $query->where('user_id', auth()->user()->id)
+                ),
+            ]
         ];
 
     }
