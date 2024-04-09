@@ -23,8 +23,8 @@ class Category extends Model
     }
 
 
-    public function todos(): BelongsTo
+    public function tasks(): BelongsTo
     {
-        return $this->belongsTo(Todo::class);
+        return $this->belongsTo(Task::class);
     }
 }

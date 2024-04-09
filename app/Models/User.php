@@ -45,13 +45,13 @@ class User extends Authenticatable
     ];
 
 
-    public function todos(): HasMany
+    public function tasks(): HasMany
     {
-        return $this->hasMany(Todo::class);
+        return $this->hasMany(Task::class);
     }
 
     public function categories(): HasMany
     {
-        return $this->hasMany(Todo::class);
+        return $this->hasMany(Task::class);
     }
 }
